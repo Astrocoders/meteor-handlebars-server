@@ -1,5 +1,6 @@
 /* jshint esnext: true */
-const path = Plugin.path;
+import {CachingCompiler} from 'meteor/caching-compiler';
+import {EJSON} from 'meteor/ejson';
 
 Plugin.registerCompiler({
   extensions: ['handlebars', 'hbs'],
@@ -28,20 +29,20 @@ class HandlebarsServer extends CachingCompiler {
   }
 
   compileHandlebar(file){
-    const templateName = file.getBasename().replace(/(.hbs)|(.handlebars)/, '');
+    const templateName = EJSON.stringify(file.getBasename().replace(/(\.hbs)|(\.handlebars)/, ''));
 
     const content = EJSON.stringify(file.getContentsAsString());
 
     const output =`
-      Handlebars.templates = Handlebars.templates || {};
-      var template = OriginalHandlebars.compile(${content});
-      Handlebars.templates['${templateName}'] = function(data, partials){
+      var handlebarsServer = require('meteor/astrocoders:handlebars-server');
+      var template = handlebarsServer.OriginalHandlebars.compile(${content});
+      handlebarsServer.Handlebars.templates[${templateName}] = function(data, partials){
         partials = partials || {};
         return template(data || {}, {
-          helpers: OriginalHandlebars.helpers,
+          helpers: handlebarsServer.OriginalHandlebars.helpers,
           partials: partials,
-          name: '${templateName}'
-         });
+          name: ${templateName}
+        });
       }`;
 
     return output;

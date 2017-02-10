@@ -15,6 +15,8 @@ The templates need to be accessible to the server (i.e. put them inside your
 The handlebars files should just be regular HTML. Don't wrap them in Meteor
 `<template>` tag.
 
+You must import the `Handlebars` namespace as shown below before using.
+
 Example:
 
 **my-template.handlebars**
@@ -23,7 +25,8 @@ hello, Dr. {{name}}
 ```
 
 **my-server-code.js**
-```
+```javascript
+import { Handlebars } from 'meteor/astrocoders:handlebars-server';
 Handlebars.templates["my-template"]({name: "Who"});
 // > hello, Dr. Who
 ```
