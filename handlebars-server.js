@@ -1,6 +1,11 @@
-OriginalHandlebars = Npm.require('handlebars');
-Handlebars = Handlebars || {};
+import OriginalHandlebars from 'handlebars';
 
+const Handlebars = global.Handlebars || {};
 _.extend(Handlebars, {
-  templates: {},
+  templates: {}
 });
+
+export {
+  OriginalHandlebars,
+  Handlebars
+};

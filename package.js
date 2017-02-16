@@ -16,6 +16,7 @@ Package.registerBuildPlugin({
   use: [
     'caching-compiler@1.0.0',
     'ecmascript',
+    'modules',
     'ejson@1.0.7',
   ],
 
@@ -29,15 +30,16 @@ Package.registerBuildPlugin({
 });
 
 Package.onUse(function(api){
-  api.versionsFrom('1.2.0.1');
+  api.versionsFrom('1.3.1');
 
   api.use([
     'ecmascript',
+    'modules',
     'underscore',
     'isobuild:compiler-plugin@1.0.0',
   ], 'server');
 
-  api.addFiles('handlebars-server.js', 'server');
+  api.mainModule('handlebars-server.js', 'server');
 
   api.export([
     'Handlebars',
@@ -47,14 +49,16 @@ Package.onUse(function(api){
 
 Package.onTest(function (api) {
   api.use([
+    'ecmascript',
+    'modules',
     'tinytest',
-   'astrocoders:handlebars-server',
-   'test-helpers',
+    'astrocoders:handlebars-server',
+    'test-helpers',
   ], 'server');
 
+  api.mainModule('handlebars-server-tests.js', 'server');
   api.addFiles([
     'handlebars-server-tests.handlebars',
     'handlebars-server-tests-2.handlebars',
-    'handlebars-server-tests.js'
   ], 'server');
 });

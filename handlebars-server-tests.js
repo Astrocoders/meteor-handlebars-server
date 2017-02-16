@@ -1,3 +1,5 @@
+import { Handlebars } from 'meteor/astrocoders:handlebars-server';
+
 Tinytest.add("handlebars-server", function (test) {
   var tmpl = Handlebars.templates['handlebars-server-tests'];
   var result = tmpl({name: 'test'});
